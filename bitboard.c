@@ -13,18 +13,13 @@ const uint32_t lsb_64_table[64] =
    20, 47, 38, 22, 17, 37, 36, 26
 };
  
-/**
- * bitScanForward
- * @author Matt Taylor (2003)
- * @param bb bitboard to scan
- * @precondition bb != 0
- * @return index (0..63) of least significant one bit
- */
-uint32_t bitscan(bitboard_t bb) {
-   uint32_t folded;
-   assert (bb != 0);
-   bb ^= bb - 1;
-   folded = (int) bb ^ (bb >> 32);
+
+uint32_t bitpop(p_bitboard_t bb) {
+   
+   //assert (bb != 0);
+   bitboard_t nb = *bb ^ *bb - 1;
+   uint32_t folded = (int) *bb ^ (*bb >> 32);
+   *bb &= *bb - 1;
    return lsb_64_table[folded * 0x78291ACF >> 26];
 }
 

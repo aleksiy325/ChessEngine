@@ -2,14 +2,14 @@
 
 
 
-uint64_t hash_board(const board_t *board){
+uint64_t hash_board(const p_board_t p_board){
     int i = 0;
     uint64_t hkey;
     int piece = EMPTY;
     
     //pieces
     for(i; i < BOARD_ARR_SIZE; i++){
-        piece = board->board_arr[i];
+        piece = p_board->board_arr[i];
 
         if(piece != NOT_SQR && piece != EMPTY){
             hkey ^= piece_keys[piece][i];
@@ -17,18 +17,17 @@ uint64_t hash_board(const board_t *board){
     }
 
     //side to move
-    if(board->side == WHITE){
+    if(p_board->side == WHITE){
         hkey ^= side_key;
     }
     
     //enpas
-    if(board->enpas != NOT_SQR){
-        hkey ^= piece_keys[EMPTY][board->enpas];
+    if(p_board->enpas != NOT_SQR){
+        hkey ^= piece_keys[EMPTY][p_board->enpas];
     }
 
     //castle
-    hkey ^= castle_key[board->castle];
+    hkey ^= castle_key[p_board->castle];
 
     return hkey;
-
 }
